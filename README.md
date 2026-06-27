@@ -62,12 +62,3 @@ print(agent.run(ONBOARDING_BRIEF))
   (or `"e2b"`) to the agent constructors.
 - The import graph and entry-point detection are **heuristics** — great for
   orientation, not a substitute for reading the code.
-
-## Extension ideas
-
-- A **third specialist** that runs the test suite and reports coverage gaps.
-- Multi-language import graphs (currently the graph is Python-only; LOC stats
-  and history tools are language-agnostic).
-- Cache sub-agent findings so re-runs are cheap.
-- Emit the dependency diagram as SVG via Graphviz instead of Mermaid.
-- A `--focus <subdir>` flag to map just one service in a monorepo.

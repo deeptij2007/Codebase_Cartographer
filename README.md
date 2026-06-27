@@ -22,11 +22,16 @@ repo and (b) caps output size. The agents get analysis libraries (`ast`,
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env          # then fill in a token for your chosen backend
+cp env.example .env           # then fill in a token for your chosen backend
 set -a; source .env; set +a   # export the vars
 
-python -m cartographer.main /path/to/some/repo -o ONBOARDING.md
+# Run from the directory that CONTAINS the Codebase_Cartographer/ folder.
+python -m Codebase_Cartographer.main /path/to/some/repo
 ```
+
+The report and dependency diagram are written into a folder named after the
+analyzed repo (override the location with `-d/--out-dir`, the report filename
+with `-o`).
 
 Switch model backend by editing `CARTOGRAPHER_MODEL_TYPE` in `.env`
 (`inference` / `litellm` / `openai` / `transformers`).
@@ -34,7 +39,7 @@ Switch model backend by editing `CARTOGRAPHER_MODEL_TYPE` in `.env`
 ## Use it as a library
 
 ```python
-from cartographer import build_cartographer, set_repo_root, ONBOARDING_BRIEF
+from Codebase_Cartographer import build_cartographer, set_repo_root, ONBOARDING_BRIEF
 
 set_repo_root("/path/to/repo")
 agent = build_cartographer()
@@ -45,10 +50,10 @@ print(agent.run(ONBOARDING_BRIEF))
 
 | File | Purpose |
 |------|---------|
-| `cartographer/tools.py`  | Guarded structure + git tools (the only I/O gateway) |
-| `cartographer/agents.py` | Mapper, Historian, and the Synthesizer manager |
-| `cartographer/config.py` | Model factory driven by env vars |
-| `cartographer/main.py`   | CLI entry point |
+| `Codebase_Cartographer/tools.py`  | Guarded structure + git tools (the only I/O gateway) |
+| `Codebase_Cartographer/agents.py` | Mapper, Historian, and the Synthesizer manager |
+| `Codebase_Cartographer/config.py` | Model factory driven by env vars |
+| `Codebase_Cartographer/main.py`   | CLI entry point |
 
 ## Safety notes
 

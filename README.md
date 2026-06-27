@@ -4,6 +4,8 @@ An agentic onboarding tool built on [smolagents](https://github.com/huggingface/
 
 It's a showcase of what `CodeAgent` is good at — instead of canned questions, the agent **writes its own analysis code** (AST parsing, import-graph building, history mining) on the fly, because every codebase is different.
 
+📋 **[Cheat sheet →](https://deeptij2007.github.io/Codebase_Cartographer/)** — a one-page quick reference (CLI flags, backends, agent hierarchy, tools).
+
 ## How it works
 
 ```

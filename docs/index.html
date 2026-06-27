@@ -3,194 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🗺️ Codebase Cartographer — Cheat Sheet</title>
+<title>smolagents — Cheat Sheet</title>
 <style>
   :root{
     --bg:#0f1419; --panel:#171d26; --panel2:#1d2530; --ink:#e6edf3;
-    --muted:#9aa7b4; --line:#2a3340; --accent:#3fb6a8; --accent2:#7c8cff;
+    --muted:#9aa7b4; --line:#2a3340; --accent:#ff9d54; --accent2:#7c8cff;
     --warn:#e0b341; --code:#0b0f14; --pill:#22303c;
     --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono",Consolas,monospace;
     --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
-  a{color:var(--accent);text-decoration:none}
+  a{color:var(--accent)}
   a:hover{text-decoration:underline}
   header{
-    padding:38px 24px 28px;text-align:center;
-    background:radial-gradient(900px 320px at 50% -40%,rgba(124,140,255,.20),transparent),
+    padding:38px 24px 26px;text-align:center;
+    background:radial-gradient(900px 320px at 50% -40%,rgba(255,157,84,.18),transparent),
                linear-gradient(180deg,#131922,#0f1419);
     border-bottom:1px solid var(--line);
   }
   header h1{margin:0;font-size:2rem;letter-spacing:.3px}
-  header p{margin:8px auto 0;max-width:680px;color:var(--muted)}
+  header p{margin:8px auto 0;max-width:720px;color:var(--muted)}
+  header .core{margin:12px auto 0;max-width:720px;font-size:.9rem}
+  header .core b{color:var(--accent)}
   .badges{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
   .badge{font-size:.72rem;color:var(--muted);background:var(--pill);border:1px solid var(--line);
-         padding:3px 10px;border-radius:999px}
-  main{max-width:1180px;margin:0 auto;padding:24px 18px 60px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;
-        box-shadow:0 1px 0 rgba(255,255,255,.02) inset}
-  .card h2{margin:0 0 12px;font-size:1.02rem;display:flex;align-items:center;gap:9px}
-  .card h2 .ic{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;
-               background:var(--panel2);border:1px solid var(--line);font-size:.95rem}
-  .span2{grid-column:span 2}
-  @media(max-width:760px){.span2{grid-column:auto}}
-  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 13px;
-      overflow:auto;margin:0 0 10px;font-family:var(--mono);font-size:.82rem;color:#cfe8e3}
-  pre .c{color:#6b7986}              /* comment */
-  pre .k{color:var(--accent2)}       /* keyword */
-  pre .s{color:var(--accent)}        /* string/flag */
+         padding:3px 10px;border-radius:999px;text-decoration:none}
+  main{max-width:1280px;margin:0 auto;padding:22px 16px 60px}
+  .cols{column-width:380px;column-gap:16px}
+  .card{break-inside:avoid;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+        padding:16px 16px 14px;margin:0 0 16px;display:inline-block;width:100%}
+  .card h2{margin:0 0 11px;font-size:1.0rem;display:flex;align-items:center;gap:9px}
+  .card h2 .ic{width:25px;height:25px;display:grid;place-items:center;border-radius:7px;
+               background:var(--panel2);border:1px solid var(--line);font-size:.9rem}
+  .sub{color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.4px;margin:10px 0 5px}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:11px 12px;
+      overflow:auto;margin:0 0 8px;font-family:var(--mono);font-size:.795rem;line-height:1.5;color:#d7e3ea;
+      white-space:pre}
   code.inl{font-family:var(--mono);font-size:.85em;background:var(--pill);border:1px solid var(--line);
            padding:1px 6px;border-radius:6px;color:#d7e0ea}
-  table{width:100%;border-collapse:collapse;font-size:.85rem}
-  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--muted);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.4px}
-  td code,th code{font-family:var(--mono)}
-  td .fl{color:var(--accent2);font-family:var(--mono);white-space:nowrap}
-  .tools li{margin:4px 0}
-  .tools b{font-family:var(--mono);color:var(--accent)}
-  ul{margin:6px 0 0;padding-left:18px}
-  li{margin:3px 0}
+  p{margin:6px 0}
   .muted{color:var(--muted)}
-  .flow{font-family:var(--mono);font-size:.8rem;color:#cfe8e3;background:var(--code);
-        border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;white-space:pre}
-  .warn{border-left:3px solid var(--warn);padding-left:10px}
-  footer{max-width:1180px;margin:0 auto;padding:18px;color:var(--muted);font-size:.8rem;
+  ul{margin:6px 0 0;padding-left:18px}
+  li{margin:4px 0}
+  .toolbox code{font-family:var(--mono);color:var(--accent);font-size:.84rem}
+  table{width:100%;border-collapse:collapse;font-size:.84rem}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.4px}
+  .warn{border-left:3px solid var(--warn);padding-left:10px;font-size:.85rem}
+  footer{max-width:1280px;margin:0 auto;padding:18px 16px;color:var(--muted);font-size:.82rem;
          border-top:1px solid var(--line);text-align:center}
   .tag{display:inline-block;font-family:var(--mono);font-size:.7rem;color:var(--bg);
-       background:var(--accent);padding:1px 7px;border-radius:5px;margin-left:6px}
+       background:var(--accent);padding:1px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
 </style>
 </head>
 <body>
 <header>
-  <h1>🗺️ Codebase Cartographer <span class="tag">CHEAT SHEET</span></h1>
-  <p>An agentic onboarding tool built on <a href="https://github.com/huggingface/smolagents">smolagents</a>.
-     Point it at any unfamiliar git repo and it writes an onboarding map — architecture, dependency
-     diagram, load-bearing modules, a git-history risk map, and a "read these first" path.</p>
+  <h1>🤗 smolagents <span class="tag">CHEAT SHEET</span></h1>
+  <p>Hugging Face's minimal library for <b>agents that think in code</b>.</p>
+  <p class="core"><b>Core idea:</b> the LLM writes Python snippets to call your tools instead of
+     emitting JSON tool calls. ~1,000 lines of core code, model-agnostic.</p>
   <div class="badges">
-    <span class="badge">Python 3.10+</span>
-    <span class="badge">smolagents</span>
-    <span class="badge">multi-agent</span>
-    <span class="badge">AST + git mining</span>
-    <a class="badge" href="https://github.com/deeptij2007/Codebase_Cartographer">GitHub ↗</a>
+    <a class="badge" href="https://medium.com/@deeptij2007/smolagents-cheat-sheet-b6cde206db58">📋 Source article ↗</a>
+    <a class="badge" href="https://huggingface.co/docs/smolagents">Docs ↗</a>
+    <a class="badge" href="https://github.com/huggingface/smolagents">Repo ↗</a>
   </div>
 </header>
 
 <main>
-<div class="grid">
+<div class="cols">
 
-  <!-- Quickstart -->
+  <!-- Install -->
   <section class="card">
-    <h2><span class="ic">⚡</span> Quickstart</h2>
-<pre><span class="c"># 1 — install</span>
-pip install -r requirements.txt
-
-<span class="c"># 2 — configure a backend</span>
-cp env.example .env
-set -a; source .env; set +a
-
-<span class="c"># 3 — run (from the dir that CONTAINS</span>
-<span class="c">#     the Codebase_Cartographer/ folder)</span>
-python -m Codebase_Cartographer.main <span class="s">/path/to/repo</span></pre>
-    <p class="muted" style="margin:2px 0 0;font-size:.82rem">
-      Output lands in a folder named after the analyzed repo:
-      <code class="inl">repo/ONBOARDING.md</code> + a Mermaid diagram.</p>
+    <h2><span class="ic">📦</span> Install</h2>
+<pre>pip install smolagents                 # core
+pip install 'smolagents[toolkit]'      # + default tools (web search...)
+pip install 'smolagents[litellm]'      # OpenAI / Anthropic / 100+ via LiteLLM
+pip install 'smolagents[transformers]' # local HF models
+pip install 'smolagents[mcp]'          # MCP server integration
+pip install 'smolagents[openai]'       # OpenAI-compatible servers
+pip install 'smolagents[telemetry]'    # OpenTelemetry tracing
+pip install 'smolagents[gradio]'       # GradioUI</pre>
   </section>
 
-  <!-- CLI flags -->
+  <!-- Hello agent -->
   <section class="card">
-    <h2><span class="ic">⌨️</span> CLI flags</h2>
-    <table>
-      <tr><th>Arg</th><th>Default</th><th>What</th></tr>
-      <tr><td class="fl">repo</td><td class="muted">—</td><td>Path to the git repo to analyze (required)</td></tr>
-      <tr><td class="fl">-o, --output</td><td><code>ONBOARDING.md</code></td><td>Report filename inside the output dir</td></tr>
-      <tr><td class="fl">-d, --out-dir</td><td class="muted">&lt;repo name&gt;</td><td>Directory for report + diagram</td></tr>
-      <tr><td class="fl">-q, --quiet</td><td class="muted">off</td><td>Reduce agent logging</td></tr>
-    </table>
+    <h2><span class="ic">👋</span> Hello, agent</h2>
+<pre>from smolagents import CodeAgent, InferenceClientModel
+model = InferenceClientModel()          # default HF Inference model
+agent = CodeAgent(tools=[], model=model)
+print(agent.run("Sum the numbers from 1 to 10"))</pre>
   </section>
 
-  <!-- Backends / env -->
+  <!-- Agent types -->
   <section class="card">
-    <h2><span class="ic">🔌</span> Backends &amp; env vars</h2>
-    <table>
-      <tr><th>Var</th><th>Purpose</th></tr>
-      <tr><td class="fl">CARTOGRAPHER_MODEL_TYPE</td><td><code>inference</code> · <code>litellm</code> · <code>openai</code> · <code>transformers</code> (default <code>inference</code>)</td></tr>
-      <tr><td class="fl">CARTOGRAPHER_MODEL_ID</td><td>Model id for the chosen backend</td></tr>
-      <tr><td class="fl">CARTOGRAPHER_PROVIDER</td><td>HF inference provider (e.g. <code>together</code>)</td></tr>
-      <tr><td class="fl">CARTOGRAPHER_API_BASE</td><td>Base URL for an OpenAI-compatible server</td></tr>
-      <tr><td class="fl">HF_TOKEN / ANTHROPIC_API_KEY / OPENAI_API_KEY</td><td>Provider credentials</td></tr>
-    </table>
-<pre><span class="c"># Anthropic via LiteLLM</span>
-<span class="k">export</span> CARTOGRAPHER_MODEL_TYPE=<span class="s">litellm</span>
-<span class="k">export</span> CARTOGRAPHER_MODEL_ID=<span class="s">anthropic/claude-sonnet-4-5</span>
-<span class="k">export</span> ANTHROPIC_API_KEY=<span class="s">sk-ant-...</span></pre>
+    <h2><span class="ic">🧩</span> Agent types</h2>
+    <p class="muted" style="font-size:.85rem">Two flavors — pick by how the agent should act:</p>
+    <ul>
+      <li><b>CodeAgent</b> — writes Python that composes tool calls. Best for reasoning &amp; composition.</li>
+      <li><b>ToolCallingAgent</b> — emits structured (JSON) tool calls. Best for reliable atomic calls.</li>
+    </ul>
+<pre>from smolagents import ToolCallingAgent, WebSearchTool
+agent = ToolCallingAgent(tools=[WebSearchTool()], model=model)</pre>
   </section>
 
-  <!-- Agent hierarchy -->
-  <section class="card span2">
-    <h2><span class="ic">🤖</span> Agent hierarchy</h2>
-    <div class="flow">cartographer  (manager · CodeAgent)        tools: read_file   imports: json, textwrap   max_steps: 12
-   │
-   ├── structure_mapper  (CodeAgent)        max_steps: 14   imports: ast, collections, json, re, math, itertools, networkx, pandas
-   │       walks the tree · parses ASTs · builds the import graph · emits the Mermaid diagram
-   │
-   └── git_historian     (ToolCallingAgent) max_steps: 10
-           mines git history for churn hotspots &amp; bus-factor / knowledge-concentration risk</div>
-    <p class="muted" style="margin:10px 0 0;font-size:.82rem">
-      The manager delegates to both specialists (wired via <code class="inl">managed_agents=[...]</code>),
-      verifies a few files itself, then synthesizes one Markdown report.</p>
+  <!-- Constructor args -->
+  <section class="card">
+    <h2><span class="ic">🛠️</span> Common constructor args</h2>
+<pre>agent = CodeAgent(
+    tools=[...],              # list of Tool INSTANCES (not classes)
+    model=model,
+    add_base_tools=True,      # include the default toolbox
+    max_steps=10,             # cap reasoning steps
+    verbosity_level=1,        # 0 silent, 1 steps, 2 detailed
+    planning_interval=3,      # re-plan every N steps (None = off)
+    stream_outputs=True,
+    additional_authorized_imports=["numpy", "pandas"],  # CodeAgent only
+    executor_type="local",    # local|e2b|docker|blaxel|modal|wasm
+    step_callbacks=[my_callback],
+    name="...", description="...",  # only if used as a sub-agent
+)</pre>
+  </section>
+
+  <!-- Running -->
+  <section class="card">
+    <h2><span class="ic">▶️</span> Running</h2>
+<pre>agent.run("task")                                # final answer
+agent.run("task", reset=False)                   # keep memory (follow-up)
+agent.run("task", additional_args={"k": value})  # inject objects/state
+agent.run("Describe this", images=[pil_image])   # vision input
+for chunk in agent.run("task", stream=True): ... # stream steps</pre>
+  </section>
+
+  <!-- Models -->
+  <section class="card">
+    <h2><span class="ic">🧠</span> Models</h2>
+<pre># HF Inference providers (Together, Novita, Cerebras, Fireworks...)
+from smolagents import InferenceClientModel
+model = InferenceClientModel(model_id="deepseek-ai/DeepSeek-R1",
+                             provider="together")
+
+# LiteLLM -> OpenAI, Anthropic, Gemini, etc.
+from smolagents import LiteLLMModel
+model = LiteLLMModel(model_id="anthropic/claude-sonnet-4-5",
+                     api_key=os.environ["ANTHROPIC_API_KEY"],
+                     temperature=0.2)
+
+# Any OpenAI-compatible endpoint (OpenAI, OpenRouter, vLLM, Ollama...)
+from smolagents import OpenAIServerModel   # newer alias: OpenAIModel
+model = OpenAIServerModel(model_id="gpt-4o",
+                          api_base="https://api.openai.com/v1",
+                          api_key=os.environ["OPENAI_API_KEY"])
+
+# Local transformers pipeline
+from smolagents import TransformersModel
+model = TransformersModel(model_id="Qwen/Qwen2.5-Coder-32B-Instruct")</pre>
+    <p class="muted" style="font-size:.82rem">Also: <code class="inl">AzureOpenAIModel</code>,
+       <code class="inl">AmazonBedrockModel</code>, <code class="inl">MLXModel</code> (Apple Silicon).</p>
   </section>
 
   <!-- Tools -->
   <section class="card">
-    <h2><span class="ic">🧰</span> Guarded tools</h2>
-    <ul class="tools" style="list-style:none;padding-left:0">
-      <li class="muted" style="font-size:.78rem;text-transform:uppercase;letter-spacing:.4px;margin-top:2px">Structure (mapper)</li>
-      <li><b>list_files</b> · <b>read_file</b> · <b>file_stats</b></li>
-      <li><b>detect_entrypoints</b> · <b>build_import_graph</b></li>
-      <li><b>export_dependency_diagram</b></li>
-      <li class="muted" style="font-size:.78rem;text-transform:uppercase;letter-spacing:.4px;margin-top:8px">History (historian)</li>
-      <li><b>run_git</b> · <b>git_churn_hotspots</b> · <b>git_authorship</b></li>
-    </ul>
-    <p class="warn muted" style="margin:12px 0 0;font-size:.81rem">
-      No raw <code class="inl">os</code>/<code class="inl">subprocess</code>: every read &amp; git call goes
-      through these, staying inside the repo and capping output size.</p>
+    <h2><span class="ic">🧰</span> Tools</h2>
+    <div class="sub">Default toolbox ([toolkit] extra)</div>
+    <p class="toolbox" style="font-size:.84rem">
+      <code>WebSearchTool</code> · <code>DuckDuckGoSearchTool</code> · <code>GoogleSearchTool</code> ·
+      <code>VisitWebpageTool</code> · <code>PythonInterpreterTool</code> · <code>FinalAnswerTool</code> ·
+      <code>UserInputTool</code> · <code>SpeechToTextTool</code></p>
+    <p class="muted" style="font-size:.82rem">Add them all with <code class="inl">add_base_tools=True</code>.</p>
+
+    <div class="sub">Custom tool — @tool decorator (quick)</div>
+    <p class="muted" style="font-size:.82rem">Needs <b>type hints</b> + a docstring with an
+       <code class="inl">Args:</code> section — these become the schema the LLM sees.</p>
+<pre>from smolagents import tool
+@tool
+def get_product_price(product_name: str) -> float:
+    """Gets the price of a product.
+    Args:
+        product_name: The name of the product to look up.
+    """
+    return PRICES[product_name]
+agent = CodeAgent(tools=[get_product_price], model=model)</pre>
+
+    <div class="sub">Custom tool — Tool class (full control)</div>
+<pre>from smolagents import Tool
+class QueryTool(Tool):
+    name = "qdrant_query"
+    description = "Semantic search over the movie collection."
+    inputs = {
+        "query": {"type": "string",
+                  "description": "Text query close to targets."}
+    }
+    output_type = "string"
+    def forward(self, query: str) -> str:
+        ...           # your logic
+        return result</pre>
+
+    <div class="sub">Import existing tools</div>
+<pre># A Hugging Face Space as a tool
+image_gen = Tool.from_space("black-forest-labs/FLUX.1-schnell",
+              name="image_generator", description="Generate an image")
+# Hub-shared tool
+from smolagents import load_tool
+t = load_tool("m-ric/text-to-image", trust_remote_code=True)
+# LangChain tool
+lc_tool = Tool.from_langchain(some_langchain_tool)</pre>
   </section>
 
-  <!-- Report sections -->
+  <!-- MCP -->
   <section class="card">
-    <h2><span class="ic">📄</span> The report it produces</h2>
-    <ul>
-      <li>What this system does <span class="muted">— plain-English summary</span></li>
-      <li>Architecture at a glance <span class="muted">— layers &amp; data flow</span></li>
-      <li>Dependency diagram <span class="muted">— embedded Mermaid</span></li>
-      <li>Core modules <span class="muted">— the load-bearing files</span></li>
-      <li>Risk &amp; fragility map <span class="muted">— churn + bus-factor</span></li>
-      <li>Start here <span class="muted">— ordered ~6-file reading path</span></li>
-    </ul>
+    <h2><span class="ic">🔗</span> Tool collections &amp; MCP</h2>
+<pre># From a Hub collection (tools from all its Spaces)
+from smolagents import ToolCollection, CodeAgent
+coll = ToolCollection.from_hub("huggingface-tools/...",
+                               trust_remote_code=True)
+agent = CodeAgent(tools=[*coll.tools], add_base_tools=True, model=model)
+
+# From an MCP server (stdio)
+from mcp import StdioServerParameters
+params = StdioServerParameters(command="uvx", args=["mcp-server-fetch"])
+with ToolCollection.from_mcp(params, trust_remote_code=True) as tc:
+    agent = CodeAgent(tools=[*tc.tools], model=model)
+    agent.run("Fetch the homepage of huggingface.co")
+
+# From an MCP server (HTTP)
+with ToolCollection.from_mcp(
+    {"url": "http://127.0.0.1:8000/mcp",
+     "transport": "streamable-http"},
+    trust_remote_code=True,
+) as tc:
+    agent = ToolCallingAgent(tools=[*tc.tools], model=model)</pre>
   </section>
 
-  <!-- Layout -->
+  <!-- Multi-agent -->
   <section class="card">
-    <h2><span class="ic">🗂️</span> Project layout</h2>
-    <table>
-      <tr><th>File</th><th>Purpose</th></tr>
-      <tr><td><code>tools.py</code></td><td>Guarded fs + git tools (the only I/O gateway)</td></tr>
-      <tr><td><code>agents.py</code></td><td>Mapper, Historian &amp; Synthesizer manager</td></tr>
-      <tr><td><code>config.py</code></td><td>Env-driven model factory</td></tr>
-      <tr><td><code>main.py</code></td><td>CLI entry point</td></tr>
-    </table>
+    <h2><span class="ic">🤖</span> Multi-agent orchestration</h2>
+    <p class="muted" style="font-size:.84rem">Give a sub-agent a <code class="inl">name</code> +
+       <code class="inl">description</code>, pass it via <code class="inl">managed_agents</code>.
+       The manager calls it like any tool.</p>
+<pre>from smolagents import (CodeAgent, ToolCallingAgent,
+                        WebSearchTool, VisitWebpageTool)
+
+web_agent = ToolCallingAgent(
+    tools=[WebSearchTool(), VisitWebpageTool()],
+    model=model,
+    name="web_search_agent",
+    description="Runs web searches. Give it your query as an arg.",
+)
+
+manager = CodeAgent(
+    tools=[], model=model,
+    managed_agents=[web_agent],
+    additional_authorized_imports=["time", "numpy", "pandas"],
+)
+manager.run("Who is the CEO of Hugging Face, and their birth year?")</pre>
   </section>
 
-  <!-- Safety -->
-  <section class="card span2">
-    <h2><span class="ic">🛡️</span> Safety notes</h2>
+  <!-- Secure exec -->
+  <section class="card">
+    <h2><span class="ic">🛡️</span> Secure code execution</h2>
+    <p class="muted" style="font-size:.84rem"><code class="inl">CodeAgent</code> runs locally by default
+       (restricted interpreter: your tools + a safe builtins/imports list). For untrusted workloads, sandbox it:</p>
+<pre>agent = CodeAgent(..., executor_type="e2b")     # needs E2B_API_KEY
+agent = CodeAgent(..., executor_type="docker")
+agent = CodeAgent(..., executor_type="blaxel")  # BL_API_KEY + BL_WORKSPACE</pre>
+    <p class="warn">⚠️ The LLM can generate <b>arbitrary code</b>. Never authorize unsafe imports on
+       untrusted input; prefer a sandbox in production.</p>
+  </section>
+
+  <!-- Debug -->
+  <section class="card">
+    <h2><span class="ic">🔍</span> Inspect, debug, replay</h2>
+<pre>agent.memory.steps   # full record: task, thoughts, calls, timings, tokens
+agent.replay()       # pretty re-print of the whole run
+agent.logs           # raw logs</pre>
+    <div class="sub">Step callback (runs after each step)</div>
+<pre>from smolagents import ActionStep, CodeAgent
+def log_step(step: ActionStep, agent: CodeAgent) -> None:
+    print(f"Done step {step.step_number}")
+    if step.step_number &gt; 5:
+        step.observations_images = None   # drop images, save tokens
+agent = CodeAgent(..., step_callbacks=[log_step])</pre>
+    <div class="sub">Drive the loop manually</div>
+<pre>from smolagents import TaskStep, ActionStep
+agent.memory.steps.append(TaskStep(task="...", task_images=[]))
+final = None; n = 1
+while final is None and n &lt;= 10:
+    s = ActionStep(step_number=n, observations_images=[])
+    final = agent.step(s)
+    agent.memory.steps.append(s); n += 1</pre>
+  </section>
+
+  <!-- Share & serve -->
+  <section class="card">
+    <h2><span class="ic">🚀</span> Share &amp; serve</h2>
+<pre># Push / pull agents and tools to the Hub
+agent.push_to_hub("username/my-agent")
+agent = CodeAgent.from_hub("username/my-agent", trust_remote_code=True)
+my_tool.push_to_hub("username/my-tool")
+
+# Web UI
+from smolagents import GradioUI
+GradioUI(agent).launch()</pre>
+  </section>
+
+  <!-- CLI -->
+  <section class="card">
+    <h2><span class="ic">⌨️</span> CLI</h2>
+<pre># generalist multi-step CodeAgent
+smolagent "Plan a trip to Tokyo, Kyoto and Osaka" \
+  --model-type InferenceClientModel \
+  --model-id "Qwen/Qwen2.5-Coder-32B-Instruct" \
+  --imports pandas numpy \
+  --tools web_search
+smolagent            # interactive setup wizard (no prompt)
+
+# vision web-browsing agent (uses helium)
+webagent "Go to example.com and find the pricing page" \
+  --model-type LiteLLMModel --model-id gpt-4o</pre>
+  </section>
+
+  <!-- Quick decisions -->
+  <section class="card">
+    <h2><span class="ic">⚡</span> Quick decisions</h2>
     <ul>
-      <li><code class="inl">CodeAgent</code> executes model-written code with a <b>local</b> executor by default.
-          For untrusted repos, sandbox it — add <code class="inl">executor_type="docker"</code> (or <code class="inl">"e2b"</code>) in <code>agents.py</code>.</li>
-      <li>The import graph &amp; entry-point detection are <b>heuristics</b> (Python-only graph) — great for orientation, not a substitute for reading the code.</li>
-      <li>Tool output is capped (default 6000 chars) so a huge file can't flood the context window.</li>
+      <li><b>CodeAgent vs ToolCallingAgent</b> → composition/reasoning vs reliable atomic calls.</li>
+      <li><b>Which model class</b> → HF Inference: <code class="inl">InferenceClientModel</code> ·
+          OpenAI/Anthropic/etc.: <code class="inl">LiteLLMModel</code> ·
+          any OpenAI-compatible URL: <code class="inl">OpenAIServerModel</code> ·
+          local: <code class="inl">TransformersModel</code>.</li>
+      <li><b>Custom tool</b> → simple fn: <code class="inl">@tool</code> · stateful/complex: subclass <code class="inl">Tool</code>.</li>
+      <li><b>Production</b> → low <code class="inl">max_steps</code>, sandbox (<code class="inl">e2b</code>/<code class="inl">docker</code>),
+          never trust raw imports, keep a human in the loop.</li>
     </ul>
   </section>
 
@@ -198,8 +342,10 @@ python -m Codebase_Cartographer.main <span class="s">/path/to/repo</span></pre>
 </main>
 
 <footer>
-  🗺️ Codebase Cartographer · cheat sheet ·
-  <a href="https://github.com/deeptij2007/Codebase_Cartographer">deeptij2007/Codebase_Cartographer</a>
+  🤗 smolagents cheat sheet · adapted from
+  <a href="https://medium.com/@deeptij2007/smolagents-cheat-sheet-b6cde206db58">deeptij2007's Medium article</a> ·
+  <a href="https://huggingface.co/docs/smolagents">docs</a> ·
+  <a href="https://github.com/huggingface/smolagents">repo</a>
 </footer>
 </body>
 </html>

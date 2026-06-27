@@ -1,0 +1,7 @@
+smolagents[toolkit]>=1.20
+networkx>=3.0
+pandas>=2.0
+# Pick ONE provider extra to match CARTOGRAPHER_MODEL_TYPE:
+# smolagents[litellm]      # for litellm  (Anthropic / OpenAI / Gemini / ...)
+# smolagents[openai]       # for openai   (any OpenAI-compatible endpoint)
+# smolagents[transformers] # for transformers (local models)

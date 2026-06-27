@@ -1,2 +1,68 @@
-# Codebase_Cartographer
-You point it at any unfamiliar repo — a new job's monolith, an abandoned side project, a dependency you're forking — and it produces an onboarding map: what the system does, how data flows through it, where the scary/fragile parts are
+# 🗺️ Codebase Cartographer
+
+An agentic onboarding tool built on [smolagents](https://github.com/huggingface/smolagents). Point it at an unfamiliar git repo and it produces an **onboarding map**: what the system does, how it's structured, a dependency diagram, the load-bearing modules, a risk/fragility map from git history, and an ordered "read these files first" path.
+
+It's a showcase of what `CodeAgent` is good at — instead of canned questions, the agent **writes its own analysis code** (AST parsing, import-graph building, history mining) on the fly, because every codebase is different.
+
+## How it works
+
+```
+Synthesizer (manager CodeAgent)
+    ├── structure_mapper  (CodeAgent)        walks the tree, parses ASTs,
+    │                                        builds the import graph + diagram
+    └── git_historian     (ToolCallingAgent) churn hotspots & bus-factor risk
+```
+
+The agents have **no raw `os`/`subprocess` access**. Every filesystem read and git
+command goes through a guarded tool in `tools.py` that (a) stays inside the target
+repo and (b) caps output size. The agents get analysis libraries (`ast`,
+`networkx`, `pandas`, ...) but the door to the outside world is the tools.
+
+## Quickstart
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env          # then fill in a token for your chosen backend
+set -a; source .env; set +a   # export the vars
+
+python -m cartographer.main /path/to/some/repo -o ONBOARDING.md
+```
+
+Switch model backend by editing `CARTOGRAPHER_MODEL_TYPE` in `.env`
+(`inference` / `litellm` / `openai` / `transformers`).
+
+## Use it as a library
+
+```python
+from cartographer import build_cartographer, set_repo_root, ONBOARDING_BRIEF
+
+set_repo_root("/path/to/repo")
+agent = build_cartographer()
+print(agent.run(ONBOARDING_BRIEF))
+```
+
+## Project layout
+
+| File | Purpose |
+|------|---------|
+| `cartographer/tools.py`  | Guarded structure + git tools (the only I/O gateway) |
+| `cartographer/agents.py` | Mapper, Historian, and the Synthesizer manager |
+| `cartographer/config.py` | Model factory driven by env vars |
+| `cartographer/main.py`   | CLI entry point |
+
+## Safety notes
+
+- `CodeAgent` executes model-written code. The default executor is **local**.
+  For untrusted repos, sandbox it: in `agents.py` add `executor_type="docker"`
+  (or `"e2b"`) to the agent constructors.
+- The import graph and entry-point detection are **heuristics** — great for
+  orientation, not a substitute for reading the code.
+
+## Extension ideas
+
+- A **third specialist** that runs the test suite and reports coverage gaps.
+- Multi-language import graphs (currently the graph is Python-only; LOC stats
+  and history tools are language-agnostic).
+- Cache sub-agent findings so re-runs are cheap.
+- Emit the dependency diagram as SVG via Graphviz instead of Mermaid.
+- A `--focus <subdir>` flag to map just one service in a monorepo.
